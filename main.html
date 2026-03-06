@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>     
+
+    <link rel="shortcut icon" href="assets/github-logo.png" type="image/x-icon">
+
+    <!-- font google  -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- font awsome  -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+    <!-- daisyui + tailwind -->
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- link css  -->
+     <link rel="stylesheet" href="tailwind.init.css">
+</head>
+<body>
+    <header class=" flex justify-between p-4 items-center">
+<div class="flex text-center items-center gap-3">
+    <img src="assets/github-logo.png" alt="" class=" h-[36.09px] w-9">
+    <h2 class=" text-center">GitHub Issues Tracker</h2>
+</div>
+<div class=" flex gap-1">
+     <label class="input">
+  <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2.5"
+      fill="none"
+      stroke="currentColor"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </g>
+  </svg>
+  <input type="search" required placeholder="Search issues..." id="search-input" />
+</label>
+    <button class="btn btn-primary h-9" id="search-input-btn">+ New Issue</button>
+     </div>
+    </header>
+
+    <main class="w-11/12 mx-auto space-y-5 ">
+
+        <section id="button-section-main bg-base-200 ">
+
+<div class="tabs tabs-box bg-base-200">
+  <input type="radio" name="my_tabs_1" class="tab" aria-label="All" checked="checked" id="All-tabs"/>
+  <input type="radio" name="my_tabs_1" class="tab" aria-label="Open" id="Open-tabs" />
+  <input type="radio" name="my_tabs_1" class="tab" aria-label="Closed" id="Closed-tabs" />
+</div>
+</section>
+
+
+        <section class="bg-base-200 p-5">
+            <div class="head-main flex justify-between" >
+<div>
+                    <img src="assets/Aperture.png" class="h-10 ">
+                <div>
+                   <h2><span>0</span> <span class="font-bold">issues</span></h2>
+                <p class="text-[#64748B] text-[13px]">Track and manage your project issues</p>
+                </div>
+</div>
+<div id="status-btn-notused" class="flex gap-4 items-center">
+    <div class="flex">
+<img src="assets/Open-Status.png" alt=""class="h-6">
+<p>open</p>
+    </div>
+    <div class="flex">
+<img src="assets/Closed- Status .png" class="h-6">
+<p>Closed</p>
+    </div>
+</div>
+            </div>
+        </section>
+        <section class="bg-base-200 p-5 grid grid-cols-4 gap-5" >
+            <div class="p-4 space-y-4">
+                <div class="flex justify-between ">
+                    <!-- status  -->
+                     <img src="assets/Open-Status.png">
+                     <p>high</p>
+                </div>
+                <div class="text ">
+                    <h2 class="semi-bold">Fix navigation menu on mobile devices</h2>
+                    <p class="text-[#64748B]">The navigation menu doesn't collapse properly on mobile devices...</p>
+                </div>
+                <div class="bugtype">
+                    <p>bug</p>
+                    <p>wanted</p>
+                </div>
+                <div>
+                    <p>name</p>
+                    <p>date</p>
+                </div>
+            </div>
+           
+
+        </section>
+
+    </main>
+</body>
+</html>
