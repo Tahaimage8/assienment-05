@@ -1,31 +1,67 @@
 
 const url = 'https://phi-lab-server.vercel.app/api/v1/lab/issues';
 
+
+let allIssues = [];
+
+
 fetch(url)
-.then((res)=>res.json())
-.then((data)=>issues(data))
+  .then((res) => res.json())
+  .then((data) => {
+    allIssues = data.data;
+    issues({ data: allIssues });
+  });
 
 
 const sectionOfMain= document.getElementById("sectionsIT");
+const loadWordDetails = async (id)=>{
+    const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
+    // console.log(url);
+    const res = await fetch(url);
+    const details = await res.json();
+    displayWordDetails(details.data);
+    
+}
+const displayWordDetails = (word)=>{
 
+    console.log(word);
+    
+const detailsBox = document.getElementById("details-container");
+detailsBox.innerHTML="hi im from js";
+document.getElementById("my_modal_5").showMoral();
 
+// detailsContainer.innerHTML= "hello"
 
+}
+// "id": 1,
+// "title": "Fix navigation menu on mobile devices",
+// "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
+// "status": "open",
+// "labels": [
+// "bug",
+// "help wanted"
+// ],
+// "priority": "high",
+// "author": "john_doe",
+// "assignee": "jane_smith",
+// "createdAt": "2024-01-15T10:30:00Z",
+// "updatedAt": "2024-01-15T10:30:00Z"
+// },
 // {
-//     "id": 1,
-//     "title": "Fix navigation menu on mobile devices",
-//     "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-//     "status": "open",
-//     "labels": [
-//         "bug",
-//         "help wanted"
-//     ],
-//     "priority": "high",
-//     "author": "john_doe",
-//     "assignee": "jane_smith",
-//     "createdAt": "2024-01-15T10:30:00Z",
-//     "updatedAt": "2024-01-15T10:30:00Z"
-// }
-
+// "id": 2,
+// "title": "Add dark mode support",
+// "description": "Users are requesting a dark mode option. This would improve accessibility and user experience.",
+// "status": "open",
+// "labels": [
+// "enhancement",
+// "good first issue"
+// ],
+// "priority": "medium",
+// "author": "sarah_dev",
+// "assignee": "",
+// "createdAt": "2024-01-14T14:20:00Z",
+// "updatedAt": "2024-01-16T09:15:00Z"
+// },
 
 
 
@@ -34,20 +70,45 @@ function issues(objectsOfData) {
     const allIssue =document.getElementById("all-issue-update");
 allIssue.innerText = objectsOfData.data.length;
 
+sectionOfMain.innerHTML = ""; 
 
 const dates = objectsOfData.data;
 
 dates.forEach(data => {
 
+let labelsHTML = "";
+data.labels.forEach(label => {
+
+if(label === "bug"){
+labelsHTML += `<span class="px-2 py-1 text-[10px] border border-red-200 text-red-500 rounded-full"> BUG</span>`;
+}
+
+else if(label === "help wanted"){
+labelsHTML += `<span class="px-2 py-1 text-[10px] border border-orange-200 text-orange-500 rounded-full"> HELP WANTED</span>`;
+}
+
+else if(label === "enhancement"){
+labelsHTML += `<span class="px-2 py-1 text-[10px] border border-blue-200 text-blue-500 rounded-full"> ENHANCEMENT</span>`;
+}
+
+else if(label === "good first issue"){
+labelsHTML += `<span class="px-2 py-1 text-[10px] border border-green-200 text-green-500 rounded-full"> GOOD FIRST ISSUE</span>`;
+}
+else if(label === "documentation"){
+labelsHTML += `<span class="px-2 py-1 text-[10px] border border-yellow-200 text-yellow-500 rounded-full"> documentation</span>`;
+}
+});
+
 const div = document.createElement("div");
 
-// priority color
 if(data.status === "open"){
     div.classList.add("border-t-2","border-green-500");
 }
 else if(data.status === "closed"){
     div.classList.add("border-t-2","border-purple-500");
 }
+
+
 let priorityColor = "";
 
 if(data.priority === "high"){
@@ -60,10 +121,22 @@ else if(data.priority === "low"){
     priorityColor = "bg-gray-500";
 }
 
+
+
+let images ="";
+if(data.status === "open"){
+    images = `<img src="assets/Open-Status.png">`;
+}
+else if(data.status === "closed"){
+    images = `<img src="assets/closed-Status.png">`;
+}
+
+
+
 div.innerHTML = `
-<div class="p-4 space-y-4 gap-5 shadow-2xl h-75">
+<div class="p-4 space-y-4 gap-5 shadow-2xl h-[400px]  cursor-pointer" onclick="loadWordDetails('${data.id}')">
     <div class="flex justify-between ">
-        <img src="assets/Open-Status.png">
+       <div>${images}</div>
         <div id="status2" class="${priorityColor} text-white px-2 rounded"><p>${data.priority}</p></div>
     </div>
 
@@ -71,7 +144,9 @@ div.innerHTML = `
         <h2 class="font-semibold">${data.title}</h2>
         <p class="text-[#64748B]">${data.description}</p>
     </div>
-
+<div class="flex gap-2 flex-wrap flex-row">
+${labelsHTML}
+</div>
     <div>
         <p>${data.author}</p>
         <p>${data.updatedAt}</p>
@@ -82,5 +157,49 @@ div.innerHTML = `
 sectionOfMain.appendChild(div);
 
 });
-    
+  
+
+
+
 }
+
+
+
+// ALL
+document.getElementById("All-tabs").addEventListener("click", () => {
+
+  issues({ data: allIssues });
+//   variable.classList.remove("hidden")
+
+});
+
+
+// OPEN
+document.getElementById("Open-tabs").addEventListener("click", () => {
+
+  const openIssues = allIssues.filter(
+    (issue) => issue.status === "open"
+  );
+  
+  issues({ data: openIssues });
+
+
+
+});
+
+
+// CLOSED
+document.getElementById("Closed-tabs").addEventListener("click", () => {
+
+  const closedIssues = allIssues.filter(
+    (issue) => issue.status === "closed"
+  );
+
+  issues({ data: closedIssues });
+
+});
+
+
+
+
+

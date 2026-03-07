@@ -55,7 +55,7 @@
 
     <main class="w-11/12 mx-auto space-y-5 ">
 
-        <section id="button-section-main bg-base-200 ">
+        <section id="button-section-main" class="bg-base-200">
 
 <div class="tabs tabs-box bg-base-200">
   <input type="radio" name="my_tabs_1" class="tab" aria-label="All" checked="checked" id="All-tabs"/>
@@ -80,15 +80,28 @@
 <p>open</p>
     </div>
     <div class="flex">
-<img src="assets/Closed- Status .png" class="h-6">
+<img src="assets/Closed-Status.png" class="h-6">
 <p>Closed</p>
     </div>
 </div>
             </div>
         </section>
-        <section class="bg-white p-5 grid grid-cols-4 gap-5" id="sectionsIT">
+        <section class="bg-white p-5 grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-5" id="sectionsIT">
 
-           
+           <!-- Open the modal using ID.showModal() method -->
+<!-- Open the modal using ID.showModal() method -->
+<!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+<dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle space-y-6">
+  <div class="modal-box">
+ <div id="details-container"></div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
 
         </section>
 
