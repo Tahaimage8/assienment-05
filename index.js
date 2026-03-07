@@ -127,23 +127,23 @@ labelsHTML += `<span class="px-2 py-1 text-[10px] border border-yellow-200 text-
 const div = document.createElement("div");
 
 if(data.status === "open"){
-    div.classList.add("border-t-2","border-green-500");
+    div.classList.add("border-t-4","border-green-500","rounded-2xl");
 }
 else if(data.status === "closed"){
-    div.classList.add("border-t-2","border-purple-500");
+    div.classList.add("border-t-4","border-purple-500", "rounded-2xl");
 }
 
 
 let priorityColor = "";
 
 if(data.priority === "high"){
-    priorityColor = "bg-red-500";
+    priorityColor = "bg-red-200";
 }
 else if(data.priority === "medium"){
-    priorityColor = "bg-yellow-500";
+    priorityColor = "bg-yellow-200";
 }
 else if(data.priority === "low"){
-    priorityColor = "bg-gray-500";
+    priorityColor = "bg-gray-200 ";
 }
 
 
@@ -159,10 +159,10 @@ else if(data.status === "closed"){
 
 
 div.innerHTML = `
-<div class="p-4 space-y-4 gap-5 shadow-2xl h-[400px]  cursor-pointer" onclick="loadWordDetails('${data.id}')">
+<div class="p-4 space-y-4 gap-5 shadow-2xl h-[400px] rounded-2xl  cursor-pointer" onclick="loadWordDetails('${data.id}')">
     <div class="flex justify-between ">
        <div>${images}</div>
-        <div id="status2" class="${priorityColor} text-white px-2 rounded"><p>${data.priority}</p></div>
+        <div id="status2" class="${priorityColor}  text-white px-2 rounded-full"><p>${data.priority}</p></div>
     </div>
 
     <div class="h-40">
