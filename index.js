@@ -1,4 +1,4 @@
-
+let currentTab = "all";
 const url = 'https://phi-lab-server.vercel.app/api/v1/lab/issues';
 
 
@@ -192,7 +192,7 @@ sectionOfMain.appendChild(div);
 
 // ALL
 document.getElementById("All-tabs").addEventListener("click", () => {
-
+    currentTab = "all";
   issues({ data: allIssues });
 //   variable.classList.remove("hidden")
 
@@ -202,6 +202,7 @@ document.getElementById("All-tabs").addEventListener("click", () => {
 // OPEN
 document.getElementById("Open-tabs").addEventListener("click", () => {
 
+    currentTab = "open";
   const openIssues = allIssues.filter(
     (issue) => issue.status === "open"
   );
@@ -215,7 +216,7 @@ document.getElementById("Open-tabs").addEventListener("click", () => {
 
 // CLOSED
 document.getElementById("Closed-tabs").addEventListener("click", () => {
-
+    currentTab = "closed";
   const closedIssues = allIssues.filter(
     (issue) => issue.status === "closed"
   );
@@ -224,7 +225,30 @@ document.getElementById("Closed-tabs").addEventListener("click", () => {
 
 });
 
+// search option    
 
 
+document.getElementById("btn-search").addEventListener("click",()=>{
 
+const input = document.getElementById("input-search");
+const searchValue = input.value.trim().toLowerCase();
 
+fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`)
+.then((res)=> res.json())
+.then((data)=> {
+
+let results = data.data;
+
+if(currentTab === "open"){
+results = results.filter(issue => issue.status === "open");
+}
+
+else if(currentTab === "closed"){
+results = results.filter(issue => issue.status === "closed");
+}
+
+issues({ data: results });
+
+})
+
+})
