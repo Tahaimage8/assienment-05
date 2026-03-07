@@ -24,15 +24,40 @@ const loadWordDetails = async (id)=>{
 }
 const displayWordDetails = (word)=>{
 
-    console.log(word);
-    
-const detailsBox = document.getElementById("details-container");
-detailsBox.innerHTML="hi im from js";
-document.getElementById("my_modal_5").showMoral();
+const detailsContainer = document.getElementById("details-container");
 
-// detailsContainer.innerHTML= "hello"
+let labelsHTML="";
+
+word.labels.forEach(label=>{
+labelsHTML += `<span class="px-2 py-1 text-xs border rounded">${label}</span>`
+})
+
+detailsContainer.innerHTML= `
+<h3 class="text-lg font-bold">${word.title}</h3>
+
+<div class="flex gap-4">
+<p>${word.status}</p>
+<p>${word.author}</p>
+<p>${word.updatedAt}</p>
+</div>
+
+<div class="flex gap-2 flex-wrap mt-3">
+${labelsHTML}
+</div>
+
+<div class="mt-3">
+<p>${word.description}</p>
+</div>
+
+<div class="mt-3">
+<p class="font-bold">${word.priority}</p>
+</div>
+`;
+
+document.getElementById("my_modal_5").showModal()
 
 }
+// displayWordDetails();
 // "id": 1,
 // "title": "Fix navigation menu on mobile devices",
 // "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
