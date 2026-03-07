@@ -125,7 +125,7 @@ if(data.status === "open"){
     images = `<img src="assets/Open-Status.png">`;
 }
 else if(data.status === "closed"){
-    images = `<img src="assets/closed-Status.png">`;
+    images = `<img src="assets/Closed-Status.png">`;
 }
 
 
