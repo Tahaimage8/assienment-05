@@ -1,6 +1,7 @@
 let currentTab = "all";
 const url = 'https://phi-lab-server.vercel.app/api/v1/lab/issues';
-
+const date = new Date();
+const formatted = date.toLocaleDateString("en-GB");
 
 let allIssues = [];
 
@@ -24,13 +25,15 @@ const loadWordDetails = async (id)=>{
     
 }
 const displayWordDetails = (word)=>{
-
+const wordDate = new Date(word.updatedAt).toLocaleDateString("en-GB"); 
 const detailsContainer = document.getElementById("details-container");
 
 let labelsHTML="";
 
 word.labels.forEach(label=>{
-labelsHTML += `<span class="px-2 py-1 text-xs border rounded">${label}</span>`
+
+    labelsHTML += `<span class="px-2 py-1 text-xs border rounded">${label}</span>`
+
 })
 
 detailsContainer.innerHTML= `
@@ -39,7 +42,7 @@ detailsContainer.innerHTML= `
 <div class="flex gap-4">
 <p>${word.status}</p>
 <p>${word.author}</p>
-<p>${word.updatedAt}</p>
+<p>${wordDate}</p>
 </div>
 
 <div class="flex gap-2 flex-wrap mt-3">
@@ -64,6 +67,8 @@ document.getElementById("my_modal_5").showModal()
 
 
 function issues(objectsOfData) {
+
+
     const allIssue =document.getElementById("all-issue-update");
 allIssue.innerText = objectsOfData.data.length;
 
@@ -72,87 +77,67 @@ sectionOfMain.innerHTML = "";
 const dates = objectsOfData.data;
 
 dates.forEach(data => {
+    const updateDate = new Date(data.updatedAt).toLocaleDateString("en-GB"); 
 
-let labelsHTML = "";
-data.labels.forEach(label => {
+    let labelsHTML = "";
+    data.labels.forEach(label => {
+        if(label === "bug"){
+            labelsHTML += `<span class="px-2 py-1 text-[10px] border border-red-200 text-red-500 rounded-full"> BUG</span>`;
+        }
+        else if(label === "help wanted"){
+            labelsHTML += `<span class="px-2 py-1 text-[10px] border border-orange-200 text-orange-500 rounded-full"> HELP WANTED</span>`;
+        }
+        else if(label === "enhancement"){
+            labelsHTML += `<span class="px-2 py-1 text-[10px] border border-blue-200 text-blue-500 rounded-full"> ENHANCEMENT</span>`;
+        }
+        else if(label === "good first issue"){
+            labelsHTML += `<span class="px-2 py-1 text-[10px] border border-green-200 text-green-500 rounded-full"> GOOD FIRST ISSUE</span>`;
+        }
+        else if(label === "documentation"){
+            labelsHTML += `<span class="px-2 py-1 text-[10px] border border-yellow-200 text-yellow-500 rounded-full"> documentation</span>`;
+        }
+    });
 
-if(label === "bug"){
-labelsHTML += `<span class="px-2 py-1 text-[10px] border border-red-200 text-red-500 rounded-full"> BUG</span>`;
-}
+    const div = document.createElement("div");
 
-else if(label === "help wanted"){
-labelsHTML += `<span class="px-2 py-1 text-[10px] border border-orange-200 text-orange-500 rounded-full"> HELP WANTED</span>`;
-}
+    if(data.status === "open"){
+        div.classList.add("border-t-4","border-green-500","rounded-2xl");
+    }
+    else if(data.status === "closed"){
+        div.classList.add("border-t-4","border-purple-500", "rounded-2xl");
+    }
 
-else if(label === "enhancement"){
-labelsHTML += `<span class="px-2 py-1 text-[10px] border border-blue-200 text-blue-500 rounded-full"> ENHANCEMENT</span>`;
-}
+    let priorityColor = "";
+    if(data.priority === "high") priorityColor = "bg-red-200";
+    else if(data.priority === "medium") priorityColor = "bg-yellow-200";
+    else if(data.priority === "low") priorityColor = "bg-gray-200 ";
 
-else if(label === "good first issue"){
-labelsHTML += `<span class="px-2 py-1 text-[10px] border border-green-200 text-green-500 rounded-full"> GOOD FIRST ISSUE</span>`;
-}
-else if(label === "documentation"){
-labelsHTML += `<span class="px-2 py-1 text-[10px] border border-yellow-200 text-yellow-500 rounded-full"> documentation</span>`;
-}
-});
+    let images = data.status === "open" ? `<img src="assets/Open-Status.png">` : `<img src="assets/Closed-Status.png">`;
 
-const div = document.createElement("div");
+    div.innerHTML = `
+    <div class="p-4 space-y-4 gap-5 shadow-2xl h-[400px] rounded-2xl  cursor-pointer" onclick="loadWordDetails('${data.id}')">
+        <div class="flex justify-between ">
+            <div>${images}</div>
+            <div id="status2" class="${priorityColor} text-white px-2 rounded-full"><p>${data.priority}</p></div>
+        </div>
 
-if(data.status === "open"){
-    div.classList.add("border-t-4","border-green-500","rounded-2xl");
-}
-else if(data.status === "closed"){
-    div.classList.add("border-t-4","border-purple-500", "rounded-2xl");
-}
+        <div class="h-40">
+            <h2 class="font-semibold">${data.title}</h2>
+            <p class="text-[#64748B]">${data.description}</p>
+        </div>
 
+        <div class="flex gap-2 flex-wrap flex-row">
+            ${labelsHTML}
+        </div>
 
-let priorityColor = "";
-
-if(data.priority === "high"){
-    priorityColor = "bg-red-200";
-}
-else if(data.priority === "medium"){
-    priorityColor = "bg-yellow-200";
-}
-else if(data.priority === "low"){
-    priorityColor = "bg-gray-200 ";
-}
-
-
-
-let images ="";
-if(data.status === "open"){
-    images = `<img src="assets/Open-Status.png">`;
-}
-else if(data.status === "closed"){
-    images = `<img src="assets/Closed-Status.png">`;
-}
-
-
-
-div.innerHTML = `
-<div class="p-4 space-y-4 gap-5 shadow-2xl h-[400px] rounded-2xl  cursor-pointer" onclick="loadWordDetails('${data.id}')">
-    <div class="flex justify-between ">
-       <div>${images}</div>
-        <div id="status2" class="${priorityColor}  text-white px-2 rounded-full"><p>${data.priority}</p></div>
+        <div>
+            <p>${data.author}</p>
+            <p>${updateDate}</p> 
+        </div>
     </div>
+    `;
 
-    <div class="h-40">
-        <h2 class="font-semibold">${data.title}</h2>
-        <p class="text-[#64748B]">${data.description}</p>
-    </div>
-<div class="flex gap-2 flex-wrap flex-row">
-${labelsHTML}
-</div>
-    <div>
-        <p>${data.author}</p>
-        <p>${data.updatedAt}</p>
-    </div>
-</div>
-`;
-
-sectionOfMain.appendChild(div);
-
+    sectionOfMain.appendChild(div);
 });
   
 
